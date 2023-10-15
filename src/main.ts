@@ -11,18 +11,22 @@ header.innerHTML = gameName;
 app.append(header);
 
 let counter: number = 0;
-const counterDisplay: HTMLParagraphElement = app.querySelector("#counterDisplay")!;
-const incrementButton: HTMLButtonElement = app.querySelector("#incrementButton")!;
+const counterDisplay: HTMLParagraphElement =
+  app.querySelector("#counterDisplay")!;
+const incrementButton: HTMLButtonElement =
+  app.querySelector("#incrementButton")!;
 
 function updateCounterDisplay() {
-    counterDisplay.textContent = `${counter} 🍪`;
+  counterDisplay.textContent = `${counter} 🍪`;
 }
 
 function incrementCounter() {
-    counter++;
-    updateCounterDisplay();
+  counter++;
+  updateCounterDisplay();
 }
 
 incrementButton.addEventListener("click", incrementCounter);
 
 updateCounterDisplay();
+
+setInterval(incrementCounter, 1000);
