@@ -36,7 +36,7 @@ function continuousCounter(timestamp: number) {
   }
 
   const elapsedTime = timestamp - lastTimestamp;
-  const incrementAmount = (growthRate * (elapsedTime / 1000));
+  const incrementAmount = growthRate * (elapsedTime / 1000);
 
   counter += incrementAmount;
   updateCounterDisplay();
