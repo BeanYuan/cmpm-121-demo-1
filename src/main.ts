@@ -14,11 +14,21 @@ let counter: number = 0;
 let growthRate: number = 0;
 let lastTimestamp: number = 0;
 
-const counterDisplay: HTMLParagraphElement =
-  app.querySelector("#counterDisplay")!;
-const incrementButton: HTMLButtonElement =
-  app.querySelector("#incrementButton")!;
-const upgradeButton: HTMLButtonElement = app.querySelector("#upgradeButton")!;
+const counterDisplay = document.createElement("p");
+counterDisplay.id = "counterDisplay";
+app.append(counterDisplay);
+
+// Creating and appending the increment button
+const incrementButton = document.createElement("button");
+incrementButton.id = "incrementButton";
+incrementButton.innerHTML = "🍪";
+app.append(incrementButton);
+
+// Creating and appending the upgrade button
+const upgradeButton = document.createElement("button");
+upgradeButton.id = "upgradeButton";
+upgradeButton.innerHTML = "🍪 Upgrade (Cost: 10)";
+app.append(upgradeButton);
 
 function updateCounterDisplay() {
   counterDisplay.textContent = `${counter.toFixed(2)} 🍪`;
