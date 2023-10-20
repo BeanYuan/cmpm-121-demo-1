@@ -3,7 +3,6 @@ import "./style.css";
 const app: HTMLDivElement = document.querySelector("#app")!;
 
 const gameName = "Wan's game";
-
 document.title = gameName;
 
 const header = document.createElement("h1");
@@ -18,26 +17,86 @@ const counterDisplay = document.createElement("p");
 counterDisplay.id = "counterDisplay";
 app.append(counterDisplay);
 
-// Creating and appending the increment button
+const growthRateDisplay = document.createElement("p");
+growthRateDisplay.id = "growthRateDisplay";
+app.append(growthRateDisplay);
+
 const incrementButton = document.createElement("button");
 incrementButton.id = "incrementButton";
 incrementButton.innerHTML = "🍪";
 app.append(incrementButton);
 
-// Creating and appending the upgrade button
-const upgradeButton = document.createElement("button");
-upgradeButton.id = "upgradeButton";
-upgradeButton.innerHTML = "🍪 Upgrade (Cost: 10)";
-app.append(upgradeButton);
+const buttonContainer = document.createElement("div");
+buttonContainer.id = "buttonContainer";
+app.append(buttonContainer);
 
-function updateCounterDisplay() {
+type UpgradeItem = {
+  id: string;
+  cost: number;
+  rate: number;
+  count: number;
+  button: HTMLButtonElement;
+};
+
+const upgrades: UpgradeItem[] = [
+  {
+    id: 'upgradeA',
+    cost: 10,
+    rate: 0.1,
+    count: 0,
+    button: document.createElement("button"),
+  },
+  {
+    id: 'upgradeB',
+    cost: 100,
+    rate: 2.0,
+    count: 0,
+    button: document.createElement("button"),
+  },
+  {
+    id: 'upgradeC',
+    cost: 1000,
+    rate: 50,
+    count: 0,
+    button: document.createElement("button"),
+  }
+];
+
+upgrades.forEach(upgrade => {
+  upgrade.button.id = upgrade.id;
+  upgrade.button.innerHTML = `🍪 Upgrade ${upgrade.id.charAt(upgrade.id.length-1)} (Cost: ${upgrade.cost})`;
+  buttonContainer.append(upgrade.button);
+
+  upgrade.button.addEventListener("click", () => {
+    if (counter >= upgrade.cost) {
+      counter -= upgrade.cost;
+      growthRate += upgrade.rate;
+      upgrade.count++;
+      updateDisplays();
+    }
+  });
+});
+
+function updateDisplays() {
   counterDisplay.textContent = `${counter.toFixed(2)} 🍪`;
+  growthRateDisplay.textContent = `${growthRate.toFixed(2)} cookies/sec`;
+  updateUpgradeButtons();
+}
+
+function updateUpgradeButtons() {
+  upgrades.forEach(upgrade => {
+    if (counter >= upgrade.cost) {
+      upgrade.button.disabled = false;
+    } else {
+      upgrade.button.disabled = true;
+    }
+    upgrade.button.innerHTML = `🍪 Upgrade ${upgrade.id.charAt(upgrade.id.length-1)} (Cost: ${upgrade.cost}) - Owned: ${upgrade.count}`;
+  });
 }
 
 function incrementCounter() {
   counter++;
-  updateCounterDisplay();
-  updateUpgradeButton();
+  updateDisplays();
 }
 
 function continuousCounter(timestamp: number) {
@@ -49,36 +108,14 @@ function continuousCounter(timestamp: number) {
   const incrementAmount = growthRate * (elapsedTime / 1000);
 
   counter += incrementAmount;
-  updateCounterDisplay();
-  updateUpgradeButton();
+  updateDisplays();
   lastTimestamp = timestamp;
 
   requestAnimationFrame(continuousCounter);
 }
 
-function updateUpgradeButton() {
-  if (counter >= 10) {
-    upgradeButton.disabled = false;
-  } else {
-    upgradeButton.disabled = true;
-  }
-}
-
-function upgrade() {
-  if (counter >= 10) {
-    counter -= 10; // Deduct 10 units
-    growthRate += 1; // Increment the growth rate by 1
-    updateCounterDisplay();
-    updateUpgradeButton();
-  }
-}
-
 incrementButton.addEventListener("click", incrementCounter);
-upgradeButton.addEventListener("click", upgrade);
 
-updateCounterDisplay();
-updateUpgradeButton();
-
-//setInterval(incrementCounter, 1000);
+updateDisplays();
 
 requestAnimationFrame(continuousCounter);
