@@ -36,6 +36,7 @@ type UpgradeItem = {
   cost: number;
   rate: number;
   count: number;
+  description: string;
   button: HTMLButtonElement;
 };
 
@@ -46,6 +47,7 @@ const upgrades: UpgradeItem[] = [
     cost: 10,
     rate: 0.1,
     count: 0,
+    description: "A small vessel to explore nearby stars.",
     button: document.createElement("button"),
   },
   {
@@ -54,6 +56,7 @@ const upgrades: UpgradeItem[] = [
     cost: 100,
     rate: 2.0,
     count: 0,
+    description: "Establish new civilizations on distant worlds.",
     button: document.createElement("button"),
   },
   {
@@ -62,6 +65,25 @@ const upgrades: UpgradeItem[] = [
     cost: 1000,
     rate: 50,
     count: 0,
+    description: "A dominant force ruling the galactic realm.",
+    button: document.createElement("button"),
+  },
+  {
+    id: "spaceStation",
+    label: "Space Station",
+    cost: 500,
+    rate: 20,
+    count: 0,
+    description: "A hub for traders and explorers from around the universe.",
+    button: document.createElement("button"),
+  },
+  {
+    id: "blackHoleGenerator",
+    label: "Black Hole Generator",
+    cost: 5000,
+    rate: 200,
+    count: 0,
+    description: "Harness the power of black holes for unmatched energy!",
     button: document.createElement("button"),
   },
 ];
@@ -69,6 +91,7 @@ const upgrades: UpgradeItem[] = [
 upgrades.forEach((upgrade) => {
   upgrade.button.id = upgrade.id;
   upgrade.button.innerHTML = `🚀 ${upgrade.label} (Investment: ${upgrade.cost})`;
+  upgrade.button.title = upgrade.description;
   buttonContainer.append(upgrade.button);
 
   upgrade.button.addEventListener("click", () => {
