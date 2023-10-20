@@ -32,6 +32,7 @@ app.append(buttonContainer);
 
 type UpgradeItem = {
   id: string;
+  label: string; // Added label property
   cost: number;
   rate: number;
   count: number;
@@ -41,6 +42,7 @@ type UpgradeItem = {
 const upgrades: UpgradeItem[] = [
   {
     id: "scoutShip",
+    label: "Scout Ship",
     cost: 10,
     rate: 0.1,
     count: 0,
@@ -48,6 +50,7 @@ const upgrades: UpgradeItem[] = [
   },
   {
     id: "colonyShip",
+    label: "Colony Ship",
     cost: 100,
     rate: 2.0,
     count: 0,
@@ -55,6 +58,7 @@ const upgrades: UpgradeItem[] = [
   },
   {
     id: "galacticFleet",
+    label: "Galactic Fleet",
     cost: 1000,
     rate: 50,
     count: 0,
@@ -64,10 +68,7 @@ const upgrades: UpgradeItem[] = [
 
 upgrades.forEach((upgrade) => {
   upgrade.button.id = upgrade.id;
-  const upgradeName =
-    upgrade.id.charAt(0).toUpperCase() +
-    upgrade.id.slice(1).replace(/([A-Z])/g, " $1"); // Convert camelCase to words
-  upgrade.button.innerHTML = `🚀 ${upgradeName} (Cost: ${upgrade.cost})`; // Rocket emoji for upgrades
+  upgrade.button.innerHTML = `🚀 ${upgrade.label} (Investment: ${upgrade.cost})`;
   buttonContainer.append(upgrade.button);
 
   upgrade.button.addEventListener("click", () => {
@@ -82,7 +83,7 @@ upgrades.forEach((upgrade) => {
 });
 
 function updateDisplays() {
-  counterDisplay.textContent = `${counter.toFixed(2)} galaxies`; // Labeling the units as galaxies
+  counterDisplay.textContent = `${counter.toFixed(2)} galaxies`;
   growthRateDisplay.textContent = `${growthRate.toFixed(2)} galaxies/sec`;
   updateUpgradeButtons();
 }
@@ -94,12 +95,9 @@ function updateUpgradeButtons() {
     } else {
       upgrade.button.disabled = true;
     }
-    const upgradeName =
-      upgrade.id.charAt(0).toUpperCase() +
-      upgrade.id.slice(1).replace(/([A-Z])/g, " $1");
-    upgrade.button.innerHTML = `🚀 ${upgradeName} (Cost: ${upgrade.cost.toFixed(
-      2,
-    )}) - Owned: ${upgrade.count}`;
+    upgrade.button.innerHTML = `🚀 ${
+      upgrade.label
+    } (Investment: ${upgrade.cost.toFixed(2)}) - Owned: ${upgrade.count}`;
   });
 }
 
