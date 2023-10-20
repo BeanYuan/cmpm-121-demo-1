@@ -40,31 +40,33 @@ type UpgradeItem = {
 
 const upgrades: UpgradeItem[] = [
   {
-    id: 'upgradeA',
+    id: "upgradeA",
     cost: 10,
     rate: 0.1,
     count: 0,
     button: document.createElement("button"),
   },
   {
-    id: 'upgradeB',
+    id: "upgradeB",
     cost: 100,
     rate: 2.0,
     count: 0,
     button: document.createElement("button"),
   },
   {
-    id: 'upgradeC',
+    id: "upgradeC",
     cost: 1000,
     rate: 50,
     count: 0,
     button: document.createElement("button"),
-  }
+  },
 ];
 
-upgrades.forEach(upgrade => {
+upgrades.forEach((upgrade) => {
   upgrade.button.id = upgrade.id;
-  upgrade.button.innerHTML = `🍪 Upgrade ${upgrade.id.charAt(upgrade.id.length-1)} (Cost: ${upgrade.cost})`;
+  upgrade.button.innerHTML = `🍪 Upgrade ${upgrade.id.charAt(
+    upgrade.id.length - 1,
+  )} (Cost: ${upgrade.cost})`;
   buttonContainer.append(upgrade.button);
 
   upgrade.button.addEventListener("click", () => {
@@ -72,6 +74,7 @@ upgrades.forEach(upgrade => {
       counter -= upgrade.cost;
       growthRate += upgrade.rate;
       upgrade.count++;
+      upgrade.cost *= 1.15; // Increase the cost by a factor of 1.15
       updateDisplays();
     }
   });
@@ -84,13 +87,15 @@ function updateDisplays() {
 }
 
 function updateUpgradeButtons() {
-  upgrades.forEach(upgrade => {
+  upgrades.forEach((upgrade) => {
     if (counter >= upgrade.cost) {
       upgrade.button.disabled = false;
     } else {
       upgrade.button.disabled = true;
     }
-    upgrade.button.innerHTML = `🍪 Upgrade ${upgrade.id.charAt(upgrade.id.length-1)} (Cost: ${upgrade.cost}) - Owned: ${upgrade.count}`;
+    upgrade.button.innerHTML = `🍪 Upgrade ${upgrade.id.charAt(
+      upgrade.id.length - 1,
+    )} (Cost: ${upgrade.cost.toFixed(2)}) - Owned: ${upgrade.count}`;
   });
 }
 
