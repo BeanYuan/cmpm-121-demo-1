@@ -2,7 +2,7 @@ import "./style.css";
 
 const app: HTMLDivElement = document.querySelector("#app")!;
 
-const gameName = "Wan's game";
+const gameName = "Wan's Space Exploration";
 document.title = gameName;
 
 const header = document.createElement("h1");
@@ -23,7 +23,7 @@ app.append(growthRateDisplay);
 
 const incrementButton = document.createElement("button");
 incrementButton.id = "incrementButton";
-incrementButton.innerHTML = "🍪";
+incrementButton.innerHTML = "🌍"; // Planet emoji as the main button
 app.append(incrementButton);
 
 const buttonContainer = document.createElement("div");
@@ -40,21 +40,21 @@ type UpgradeItem = {
 
 const upgrades: UpgradeItem[] = [
   {
-    id: "upgradeA",
+    id: "scoutShip",
     cost: 10,
     rate: 0.1,
     count: 0,
     button: document.createElement("button"),
   },
   {
-    id: "upgradeB",
+    id: "colonyShip",
     cost: 100,
     rate: 2.0,
     count: 0,
     button: document.createElement("button"),
   },
   {
-    id: "upgradeC",
+    id: "galacticFleet",
     cost: 1000,
     rate: 50,
     count: 0,
@@ -64,9 +64,10 @@ const upgrades: UpgradeItem[] = [
 
 upgrades.forEach((upgrade) => {
   upgrade.button.id = upgrade.id;
-  upgrade.button.innerHTML = `🍪 Upgrade ${upgrade.id.charAt(
-    upgrade.id.length - 1,
-  )} (Cost: ${upgrade.cost})`;
+  const upgradeName =
+    upgrade.id.charAt(0).toUpperCase() +
+    upgrade.id.slice(1).replace(/([A-Z])/g, " $1"); // Convert camelCase to words
+  upgrade.button.innerHTML = `🚀 ${upgradeName} (Cost: ${upgrade.cost})`; // Rocket emoji for upgrades
   buttonContainer.append(upgrade.button);
 
   upgrade.button.addEventListener("click", () => {
@@ -74,15 +75,15 @@ upgrades.forEach((upgrade) => {
       counter -= upgrade.cost;
       growthRate += upgrade.rate;
       upgrade.count++;
-      upgrade.cost *= 1.15; // Increase the cost by a factor of 1.15
+      upgrade.cost *= 1.15;
       updateDisplays();
     }
   });
 });
 
 function updateDisplays() {
-  counterDisplay.textContent = `${counter.toFixed(2)} 🍪`;
-  growthRateDisplay.textContent = `${growthRate.toFixed(2)} cookies/sec`;
+  counterDisplay.textContent = `${counter.toFixed(2)} galaxies`; // Labeling the units as galaxies
+  growthRateDisplay.textContent = `${growthRate.toFixed(2)} galaxies/sec`;
   updateUpgradeButtons();
 }
 
@@ -93,9 +94,12 @@ function updateUpgradeButtons() {
     } else {
       upgrade.button.disabled = true;
     }
-    upgrade.button.innerHTML = `🍪 Upgrade ${upgrade.id.charAt(
-      upgrade.id.length - 1,
-    )} (Cost: ${upgrade.cost.toFixed(2)}) - Owned: ${upgrade.count}`;
+    const upgradeName =
+      upgrade.id.charAt(0).toUpperCase() +
+      upgrade.id.slice(1).replace(/([A-Z])/g, " $1");
+    upgrade.button.innerHTML = `🚀 ${upgradeName} (Cost: ${upgrade.cost.toFixed(
+      2,
+    )}) - Owned: ${upgrade.count}`;
   });
 }
 
